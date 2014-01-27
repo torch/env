@@ -1,3 +1,4 @@
+require 'paths'
 
 -- welcome message
 print 'Torch 7.0  Copyright (C) 2001-2011 Idiap, NEC Labs, NYU'
@@ -270,11 +271,20 @@ function import(package, forced)
 end
 
 
+-- setup local paths (for LuaRocks and Torch-pkg)
+local localinstalldir = paths.concat(paths.home,'.luarocks')
+if paths.dirp(localinstalldir) then
+   package.path = paths.concat(localinstalldir,'share','lua','5.1','?','init.lua') .. ';' .. package.path
+   package.path = paths.concat(localinstalldir,'share','lua','5.1','?.lua') .. ';' ..  package.path
+   package.cpath = paths.concat(localinstalldir,'lib','lua','5.1','?.so') .. ';' .. package.cpath
+   package.cpath = paths.concat(localinstalldir,'lib','lua','5.1','?.dylib') .. ';' .. package.cpath
+end
+
+
 function loaddefaultlibs(loadwithimport)
    if loadwithimport == nil then loadwithimport = false end
    if not loadwithimport then
       -- preload basic libraries
-      require 'paths'
       require 'torch'
       require 'gnuplot'
       require 'dok'
@@ -291,15 +301,5 @@ loaddefaultlibs(loadwithimport)
 _G._preloaded_ = {}
 for k,v in pairs(_G) do
    _G._preloaded_[k] = true
-end
-
-
--- setup local paths (for LuarRocks and Torch-pkg)
-local localinstalldir = paths.concat(paths.home,'.luarocks')
-if paths.dirp(localinstalldir) then
-   package.path = paths.concat(localinstalldir,'share','lua','5.1','?','init.lua') .. ';' .. package.path
-   package.path = paths.concat(localinstalldir,'share','lua','5.1','?.lua') .. ';' ..  package.path
-   package.cpath = paths.concat(localinstalldir,'lib','lua','5.1','?.so') .. ';' .. package.cpath
-   package.cpath = paths.concat(localinstalldir,'lib','lua','5.1','?.dylib') .. ';' .. package.cpath
 end
 
