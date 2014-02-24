@@ -280,6 +280,8 @@ if paths.dirp(localinstalldir) then
    package.cpath = paths.concat(localinstalldir,'lib','lua','5.1','?.dylib') .. ';' .. package.cpath
 end
 
+local origpath = package.path
+local origcpath = package.cpath
 
 function loaddefaultlibs(loadwithimport)
    if loadwithimport == nil then loadwithimport = false end
@@ -297,6 +299,10 @@ end
 
 local loadwithimport = false
 loaddefaultlibs(loadwithimport)
+
+-- undo path manipulation performed by dok
+package.path = origpath
+package.cpath = origcpath
 
 _G._preloaded_ = {}
 for k,v in pairs(_G) do
