@@ -288,11 +288,9 @@ function loaddefaultlibs(loadwithimport)
    if not loadwithimport then
       -- preload basic libraries
       require 'torch'
-      require 'gnuplot'
       require 'dok'
    else
       import 'torch'
-      import 'gnuplot'
       import 'dok'
    end
 end
