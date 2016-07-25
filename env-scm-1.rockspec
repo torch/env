@@ -16,7 +16,6 @@ Adds pretty printing and additional path handling to luajit
 
 dependencies = {
    "torch >= 7.0",
-   "gnuplot",
    "dok"
 }
 
